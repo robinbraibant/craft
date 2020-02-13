@@ -2,6 +2,9 @@
 
 {% block content %}
 
+    <my-element></my-element>
+    <my-second-element></my-second-element>
+
     <div class="section section--default">
         <div class="container px-5 mx-auto">
             <div class="grid">
@@ -17,19 +20,19 @@
         <div class="section section--default">
             <div class="container px-5 mx-auto">
                 <div class="section__content">
-                    <h2 class="heading-2 text-4xl font-bold mb-4">{{ 'Laatste nieuws'|t }}</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                    <h2 class="mb-4 text-4xl font-bold heading-2">{{ 'Laatste nieuws'|t }}</h2>
+                    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
                         {% for newsEntry in news.all %}
                             {% include '_snippet/_item/_news' %}
                         {% endfor %}
                     </div>
                     {% set overview = craft.entries.section('newsOverview').one() %}
                     <div class="my-10 text-center">
-                        <a href="{{ overview.url }}" class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{ "Meer nieuws"|t }}</a>
+                        <a href="{{ overview.url }}" class="px-4 py-2 font-bold text-white bg-blue-500 rounded btn hover:bg-blue-700">{{ "Meer nieuws"|t }}</a>
                     </div>
                 </div>
             </div>
         </div>
     {% endif %}
-    
+
 {% endblock %}

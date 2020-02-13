@@ -25,6 +25,25 @@ const PATHS = {
   icons: path.join(__dirname, "tailoff", "/icons")
 };
 
+const webcomponentsjs = "./node_modules/@webcomponents/webcomponentsjs";
+const polyfills = [
+  {
+    from: path.resolve(`${webcomponentsjs}/webcomponents-*.{js,map}`),
+    to: `${PATHS.public}/js/vendor`,
+    flatten: true
+  },
+  {
+    from: path.resolve(`${webcomponentsjs}/bundles/*.{js,map}`),
+    to: `${PATHS.public}/js/vendor/bundles`,
+    flatten: true
+  },
+  {
+    from: path.resolve(`${webcomponentsjs}/custom-elements-es5-adapter.js`),
+    to: `${PATHS.public}/js/vendor`,
+    flatten: true
+  }
+];
+
 module.exports = env => {
   const isDevelopment = env.NODE_ENV === "development";
 
@@ -39,14 +58,31 @@ module.exports = env => {
     },
     module: {
       rules: [
+        // {
+        //   test: /\.m?js$/,
+        //   exclude: /node_modules/,
+        //   use: {
+        //     loader: "babel-loader",
+        //     options: {
+        //       presets: ["@babel/env"]
+        //     }
+        //   }
+        // },
         {
-          test: /\.m?js$/,
+          test: /\.js$/,
           exclude: /node_modules/,
-          use: {
-            loader: "babel-loader",
-            options: {
-              presets: ["@babel/env"]
-            }
+          loader: "babel-loader",
+          options: {
+            plugins: ["@babel/plugin-syntax-dynamic-import"],
+            presets: [
+              [
+                "@babel/preset-env",
+                {
+                  useBuiltIns: "usage",
+                  targets: ">1%, not dead, not ie 11"
+                }
+              ]
+            ]
           }
         },
         {
@@ -90,12 +126,18 @@ module.exports = env => {
       new MiniCssExtractPlugin({
         filename: "css/[name].css"
       }),
-      new CopyPlugin([
+      new CopyPlugin(
+        [
+          ...polyfills,
+          {
+            from: getSourcePath("img"),
+            to: getPublicPath("img")
+          }
+        ],
         {
-          from: getSourcePath("img"),
-          to: getPublicPath("img")
+          ignore: [".DS_Store"]
         }
-      ]),
+      ),
       new ImageminPlugin({
         test: /\.img\.(jpe?g|png|gif)$/i
       }),
