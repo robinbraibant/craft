@@ -48,6 +48,8 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@webcomponents/template": "^1.4.1",
     "@webcomponents/webcomponentsjs": "^2.4.1",
     "lit-element": "^2.2.1"
   }
