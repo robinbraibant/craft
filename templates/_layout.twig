@@ -28,6 +28,8 @@
     </head>
 
     <body class="page-{{ craft.app.request.getSegment(1) ?: 'home' }} {% block bodyClasses %}{% endblock %}">
+        <script src="/js/vendor/webcomponents-loader.js"></script>
+        <script type="text/javascript" src="/js/main.js"></script>
         <div class="page-wrap">
             <div id="app">
                 {% include '_snippet/_global/_header' %}
@@ -56,8 +58,6 @@
                     assetsPath: "/"
                 };
             </script>
-            <script src="/js/vendor/webcomponents-loader.js"></script>
-            <script type="text/javascript" src="{{ baseUrl }}/js/{{ entryPoint is defined ? entryPoint : 'main' }}.js"></script>
         {% endblock %}
         {{ craft.statik.cookieRender }}
     </body>
